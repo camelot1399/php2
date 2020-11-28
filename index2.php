@@ -49,7 +49,5 @@ class Db {
 $db = new Db();
 
 // echo $db->table('user')->first(3);
-
-
 // echo $db->table('product')->where('name', 'Alex')->andWhere('session', 123)->andWhere('id', 5)->get();
 echo $db->table('product')->where('name', 'Alex');
