@@ -1,12 +1,14 @@
 <?php
 
-use app\models\{Product, User, Basket, Order};
+use app\models\{Product, User, Basket};
 use app\engine\{Autoload, Db};
 include "../engine/Autoload.php";
 
 spl_autoload_register([new Autoload(), 'loadClass']);
 
-$product = new Product(new Db());
+
+$db = new Db();
+$product = new Product($db);
 
 $product->price = 50;
 
@@ -14,9 +16,9 @@ $product->price = 50;
 //var_dump($product->getOne(5));
 
 
-$user = new User(new Db());
+$user = new User($db);
 // var_dump($user->getOne(3));
 
-$basket = new Basket(new Db());
+$basket = new Basket($db);
 echo '<br>';
-var_dump($basket->getOne(3)->insert());
+var_dump($basket->insert());

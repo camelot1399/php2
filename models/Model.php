@@ -37,16 +37,15 @@ abstract class Model implements IModel
     }
 
     public function insert() {
-        $sql = "INSERT INTO {$this->getTableName()} (`name`) VALUES (id)";
-        $this->db->query($sql);
+        $sql = "INSERT INTO {$this->getTableName()} (`product_id`) VALUES ([product_id])";
+        return $this->db->query($sql);
     }
 
     public function delete() {
-        $sql = "DELETE FROM {$this->getTableName()} WHERE id = {$this->getId()}";
-        $this->db->query($sql);
+        $sql = "DELETE FROM {$this->getTableName()} WHERE id = id";
+        return $this->db->query($sql);
     }
 
 
     abstract protected function getTableName();
-    abstract protected function getId();
 }
