@@ -1,29 +1,35 @@
 <?php
+include '../config/config.php';
+include "../engine/Autoload.php";
+
 
 use app\models\{Product, User, Basket, Order};
-use app\engine\{Autoload, Db};
-include "../engine/Autoload.php";
+use app\engine\Autoload;
+use app\engine\Db;
+// use app\interfaces\{IModel};
+
+
 
 spl_autoload_register([new Autoload(), 'loadClass']);
 
+// $product = new Product('чай', 'йейлонский', 20);
+// $product2 = new Product($db);
+// $product->price = 50;
 
-$db = new Db();
-$product = new Product($db);
+$product = new Product("Пицца","Описание", 125);
+// echo '<pre>';
+var_dump($product->lastInsertId());
+// var_dump($product->lastInsertId());
 
-$product->price = 50;
+echo '<pre>';
+var_dump($product);
+
+// var_dump($product->name);
 
 // var_dump($product);
-//var_dump($product->getOne(5));
 
+// var_dump($product->getOne(3));
 
-$user = new User($db);
+// var_dump($product);
 
-$order = new Order($db);
-// var_dump($user->getOne(3));
-
-$basket = new Basket($db);
-echo '<br>';
-var_dump($basket->insert());
-
-echo '<br>';
-var_dump($order->insert());
+// $product->insert();

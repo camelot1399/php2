@@ -7,14 +7,13 @@ class Autoload
 
     public function loadClass($className) {
 
-        $className = str_replace('app', '..', $className);
-        $fileName = str_replace("\\", '/', $className) . '.php';
+        // $className = str_replace('app', ROOT_DIR, $className);
+        // $fileName = str_replace("\\", '/', $className) . '.php';
 
-        // var_dump($fileName);
+        $fileName = str_replace(['app', '\\'], [ROOT_DIR, DS], $className) . ".php";
 
         if (file_exists($fileName)) {
             include $fileName;
-            // break;
         }
 
     }

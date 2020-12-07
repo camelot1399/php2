@@ -9,8 +9,4 @@ class Basket extends Model {
         return "Basket";
     }
 
-    protected function getId() {
-        return $this->id;
-    }
-
 }

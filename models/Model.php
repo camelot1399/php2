@@ -11,9 +11,9 @@ abstract class Model implements IModel
 
     protected $db;
 
-    public function __construct(Db $db)
+    public function __construct()
     {
-        $this->db = $db;
+        $this->db = Db::getInstance();
     }
 
     public function __set($name, $value) {
@@ -26,24 +26,45 @@ abstract class Model implements IModel
 
 
     public function getOne($id) {
-        $sql = "SELECT FROM {$this->getTableName()} WHERE id = {$id}";
-        return $this->db->queryOne($sql);
+        $sql = "SELECT * FROM {$this->getTableName()} WHERE id = :id";
+        return Db::getInstance()->queryOne($sql, ["id" => $id], static::class);
     }
 
     public function getAll() {
-        $sql = "SELECT FROM {$this->getTableName()}";
-        return $this->db->queryAll($sql);
+        $sql = "SELECT * FROM {$this->getTableName()}";
+        return Db::getInstance()->queryAll($sql);
 
+    }
+
+    public function lastInsertId() {
+        $sql = "SELECT * FROM {$this->getTableName()} ORDER BY id DESC LIMIT 1";
+        return Db::getInstance()->execute($sql, static::class);
     }
 
     public function insert() {
-        $sql = "INSERT INTO {$this->getTableName()} (`product_id`) VALUES ([product_id])";
-        return $this->db->query($sql);
+
+        foreach($this as $key => $value) {
+            
+            if ($key == 'id') continue;
+            if ($key == 'db') continue;
+        
+            $params[] = [$key => $value];
+            $params2[] = $key;
+        }
+
+        $paramsKey = implode(', ', $params2);
+        $paramsValue = implode(', :', $params2);
+
+        $sql = "INSERT INTO {$this->getTableName()} ({$paramsKey}) VALUES (:{$paramsValue})";
+ 
+        Db::getInstance()->execute($sql, $params)->fetchAll();
+
+        $this->id = $this->lastInsertId();
     }
 
     public function delete() {
-        $sql = "DELETE FROM {$this->getTableName()} WHERE id = id";
-        return $this->db->query($sql);
+        $sql = "DELETE FROM {$this->getTableName()} WHERE id = {$this->id}";
+        return Db::getInstance()->execute($sql);
     }
 
 
