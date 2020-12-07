@@ -37,8 +37,8 @@ abstract class Model implements IModel
     }
 
     public function lastInsertId() {
-        $sql = "SELECT * FROM {$this->getTableName()} ORDER BY id DESC LIMIT 1";
-        return Db::getInstance()->execute($sql, static::class);
+        $sql = "SELECT id FROM {$this->getTableName()} ORDER BY id DESC LIMIT 1";
+        return Db::getInstance()->execute($sql);
     }
 
     public function insert() {
@@ -59,7 +59,7 @@ abstract class Model implements IModel
  
         Db::getInstance()->execute($sql, $params)->fetchAll();
 
-        $this->id = $this->lastInsertId();
+        return $this->id = $this->lastInsertId();
     }
 
     public function delete() {

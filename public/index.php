@@ -18,7 +18,7 @@ spl_autoload_register([new Autoload(), 'loadClass']);
 
 $product = new Product("Пицца","Описание", 125);
 // echo '<pre>';
-var_dump($product->lastInsertId());
+// var_dump($product->lastInsertId());
 // var_dump($product->lastInsertId());
 
 echo '<pre>';
