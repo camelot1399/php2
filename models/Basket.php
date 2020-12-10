@@ -1,12 +1,24 @@
 <?php
 
+
 namespace app\models;
 
-class Basket extends Model {
-    public $id;
+use app\engine\Db;
 
-    protected function getTableName() {
-        return "Basket";
+class Basket extends DbModel
+{
+    public $id;
+    public $session_id;
+    public $product_id;
+
+    public static function getBasket($session_id) {
+        $sql = "JOIN";
+        var_dump($sql);
+        return Db::getInstance()->queryAll($sql);
     }
 
+    protected static function getTableName()
+    {
+        return "basket";
+    }
 }

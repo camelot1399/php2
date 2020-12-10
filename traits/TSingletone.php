@@ -2,18 +2,15 @@
 
 namespace app\traits;
 
-trait TSingletone {
-
-    //Singletone
-
+trait TSingletone
+{
+    //SINLETONE
     protected static $instance = null;
 
     public static function getInstance() {
-        
         if (is_null(static::$instance)) {
             static::$instance = new static();
         }
-
         return static::$instance;
     }
 

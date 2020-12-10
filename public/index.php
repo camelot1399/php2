@@ -1,35 +1,69 @@
 <?php
-include '../config/config.php';
+
+//use app\models\{Product, User};
+//use app\engine\Db;
+
+include "../config/config.php";
 include "../engine/Autoload.php";
 
-
-use app\models\{Product, User, Basket, Order};
 use app\engine\Autoload;
+use app\models\{Product, User};
 use app\engine\Db;
-// use app\interfaces\{IModel};
-
-
 
 spl_autoload_register([new Autoload(), 'loadClass']);
 
-// $product = new Product('чай', 'йейлонский', 20);
-// $product2 = new Product($db);
-// $product->price = 50;
 
-$product = new Product("Пицца","Описание", 125);
-// echo '<pre>';
-// var_dump($product->lastInsertId());
-// var_dump($product->lastInsertId());
+$controllerName = $_GET['c'] ?: 'product';
+$actionName = $_GET['a'];
 
-echo '<pre>';
+$controllerClass =  CONTROLLER_NAMESPACE . ucfirst($controllerName) . "Controller";
+
+if (class_exists($controllerClass)) {
+    $controller = new $controllerClass();
+    $controller->runAction($actionName);
+}
+
+// $product = new Product("Банан2", "Эквадорский1", 123);
+// $product->save();
+
+/** @var Product $product */
+
+
+
+
+
+die();
+$product = Product::getOne(1);
+$product->name = "Чай2";
+//$product->update();
 var_dump($product);
 
-// var_dump($product->name);
+//CREATE
 
-// var_dump($product);
 
-// var_dump($product->getOne(3));
+$product = new Product("Банан", "Эквадорский", 123);
+$product->insert();
 
-// var_dump($product);
+//DELETE
+$product = new Product();
+$product = $product->getOne(5);
+$product->delete();
 
-// $product->insert();
+//UPDATE
+$product = new Product();
+$product = $product->getOne(5);
+$product->name = "Чай2";
+$product->update();
+
+var_dump($product);
+
+
+die();
+
+var_dump($product);
+
+var_dump($product->getOne(1));
+
+var_dump($product);
+
+
