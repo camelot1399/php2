@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+$wordHash = 'фрукт';
+$auth = md5($wordHash);
+
 //use app\models\{Product, User};
 //use app\engine\Db;
 
@@ -11,6 +15,9 @@ use app\models\Product;
 use app\models\Auth;
 use app\engine\Render;
 use app\engine\TwigRender;
+
+
+
 
 spl_autoload_register([new Autoload(), 'loadClass']);
 require_once '../vendor/autoload.php';
