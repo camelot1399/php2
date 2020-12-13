@@ -1,4 +1,5 @@
+
 <a href="/">Главная</a>
-<a href="/?c=product&a=catalog">Каталог</a>
-<a href="/?c=basket&a=basket">Корзина</a>
+<a href="/product/catalog/?page=0">Каталог</a>
+<a href="/basket/basket">Корзина</a>
 <br>

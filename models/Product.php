@@ -9,6 +9,8 @@ class Product extends DbModel {
     protected $description;
     protected $price;
 
+
+
     protected $props = [
         'name' => false,
         'description' => false,

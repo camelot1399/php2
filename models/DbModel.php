@@ -16,7 +16,7 @@ abstract class DbModel extends Model
 
     public static function getLimit($page) {
         $tableName = static::getTableName();
-        $sql = "SELECT * FROM {$tableName} LIMIT 0, :page";
+        $sql = "SELECT * FROM {$tableName} LIMIT ?";
         return Db::getInstance()->queryLimit($sql, $page);
     }
 
@@ -27,7 +27,21 @@ abstract class DbModel extends Model
 
     }
 
-    public function insert() {
+    public static function getWhere($name, $value) {
+        //TODO SELECT * FROM table WHERE $name = $value
+        $tableName = static::getTableName();
+        $sql = "SELECT * FROM {$tableName} WHERE $name = $value";
+        return Db::getInstance()->queryOne($sql);
+    }
+
+    public static function getSumWhere($name, $value) {
+        //TODO SELECT SUM(price) FROM table WHERE $name = $value
+        $tableName = static::getTableName();
+        $sql = "SELECT SUM(price) FROM {$tableName} WHERE $name = $value";
+        return Db::getInstance()->queryOne($sql);
+    }
+
+    protected function insert() {
 
         $params = [];
         $columns = [];
@@ -41,23 +55,29 @@ abstract class DbModel extends Model
         $values = implode(", ", array_keys($params));
 
         $tableName = static::getTableName();
-
-        $sql = "INSERT INTO `{$tableName}`({$columns}) VALUES ({$values})";
+        $sql = "INSERT INTO `{$tableName}`({$columns}) VALUES ($values)";
         Db::getInstance()->execute($sql, $params);
         $this->id = Db::getInstance()->lastInsertId();
-
-        echo $this->id;
     }
 
-    public function update() {
-        
+    protected function update() {
+        $params = [];
+        $colums = [];
+        foreach ($this->props as $key => $value) {
+            if (!$value) continue;
+            $params[":{$key}"] = $this->$key;
+            $colums[] .= "`{$key}` = :{$key}";
+            //TODO сбрасывать props только при успешном выполнении запроса
+            $this->props[$key] = false;
+        }
+        $colums = implode(", ", $colums);
+        $params[':id'] = $this->id;
         $tableName = static::getTableName();
-
-        $sql = "UPDATE {$tableName} SET .... WHERE id = :id";
-        // echo 'запустил update';
-        var_dump($sql);
-        //Db::getInstance()->execute($sql, $params);
+        $sql = "UPDATE `{$tableName}` SET {$colums} WHERE `id` = :id";
+        Db::getInstance()->execute($sql, $params);
     }
+
+
 
     public function delete() {
         $tableName = static::getTableName();
@@ -66,12 +86,9 @@ abstract class DbModel extends Model
     }
 
     public function save() {
-        //TODO сделать фиксацию, чекнуть $this->id на null и вызвать insert или update
         if (is_null($this->id)) {
-            echo 'insert';
             $this->insert();
         } else {
-            echo 'update';
             $this->update();
         }
     }

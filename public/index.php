@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 //use app\models\{Product, User};
 //use app\engine\Db;
 
@@ -7,28 +7,28 @@ include "../config/config.php";
 include "../engine/Autoload.php";
 
 use app\engine\Autoload;
-use app\models\{Product, User};
-use app\engine\Db;
+use app\models\Product;
+use app\models\Auth;
+use app\engine\Render;
+use app\engine\TwigRender;
 
 spl_autoload_register([new Autoload(), 'loadClass']);
+require_once '../vendor/autoload.php';
 
-
-$controllerName = $_GET['c'] ?: 'product';
-$actionName = $_GET['a'];
+$url = explode('/', $_SERVER['REQUEST_URI']);
+$controllerName = $url[1] ?: 'product';
+$actionName = $url[2];
 
 $controllerClass =  CONTROLLER_NAMESPACE . ucfirst($controllerName) . "Controller";
 
 if (class_exists($controllerClass)) {
-    $controller = new $controllerClass();
+    $controller = new $controllerClass(new TwigRender($twig));
     $controller->runAction($actionName);
 }
 
-// $product = new Product("Банан2", "Эквадорский1", 123);
-// $product->save();
+
 
 /** @var Product $product */
-
-
 
 
 
@@ -42,7 +42,7 @@ var_dump($product);
 
 
 $product = new Product("Банан", "Эквадорский", 123);
-$product->insert();
+$product->save();
 
 //DELETE
 $product = new Product();

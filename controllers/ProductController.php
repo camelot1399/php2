@@ -13,8 +13,10 @@ class ProductController extends Controller
     }
 
     public function actionCatalog() {
-        $page = $_GET['page']; //1
-        $catalog = Product::getLimit($page);//getLimit($page * PRODUCT_PER_PAGE)
+        //TODO сделать $page явно значение по умолчанию 0
+        $page = (int)$_GET['page'];
+
+        $catalog = Product::getLimit(($page + 1) * PRODUCT_PER_PAGE);
 
         echo $this->render('catalog', [
             'catalog' => $catalog,

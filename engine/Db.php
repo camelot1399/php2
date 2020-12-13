@@ -47,8 +47,9 @@ final class Db
 
     public function queryLimit($sql, $page) {
         $stmt = $this->getConnection()->prepare($sql);
-        $stmt->bindValue(':page', $page, \PDO::PARAM_INT);
-        return []; //TODO вернуть результат Execute
+        $stmt->bindValue(1, $page, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 
     public function lastInsertId() {
@@ -62,7 +63,6 @@ final class Db
     }
 
     public function execute($sql, $params = []) {
-        var_dump($sql, $params);
         return $this->query($sql, $params)->rowCount();
     }
 

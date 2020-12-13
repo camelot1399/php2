@@ -4,12 +4,21 @@
 namespace app\controllers;
 
 
+use app\engine\Render;
+use app\interfaces\IRenderer;
+use app\models\User;
+
 class Controller
 {
     protected $action;
     protected $defaultAction = 'index';
     protected $layout = 'main';
     protected $useLayout = true;
+    protected $renderer;
+
+    public function __construct(IRenderer $renderer) {
+        $this->renderer = $renderer;
+    }
 
     public function runAction($action = null) {
         $this->action = $action ?: $this->defaultAction;
@@ -24,7 +33,9 @@ class Controller
     public function render($template, $params = []) {
         if ($this->useLayout) {
             return $this->renderTemplate("layouts/{$this->layout}", [
-                'menu' =>  $this->renderTemplate('menu', $params),
+                'menu' =>  $this->renderTemplate('menu', [
+                    'username' => User::getName()
+                ]),
                 'content' => $this->renderTemplate($template, $params)
             ]);
         } else {
@@ -33,10 +44,6 @@ class Controller
     }
 
     public function renderTemplate($template, $params = []) {
-        ob_start();
-        extract($params);
-        $templatePath = TEMPLATE_DIR . $template . ".php";
-        include $templatePath;
-        return ob_get_clean();
+        return $this->renderer->renderTemplate($template, $params);
     }
 }
