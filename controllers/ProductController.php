@@ -13,7 +13,8 @@ class ProductController extends Controller
     }
 
     public function actionCatalog() {
-        //TODO сделать $page явно значение по умолчанию 0
+        //TODO переделать на Request
+
         $page = (int)$_GET['page'];
 
         $catalog = Product::getLimit(($page + 1) * PRODUCT_PER_PAGE);
@@ -26,6 +27,7 @@ class ProductController extends Controller
 
     public function actionCard() {
         $id = (int)$_GET['id'];
+        //TODO переделать на Request
         echo $this->render('card', [
             'product' => Product::getOne($id)
         ]);

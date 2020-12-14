@@ -1,9 +1,5 @@
 <?php
 session_start();
-
-$wordHash = 'фрукт';
-$auth = md5($wordHash);
-
 //use app\models\{Product, User};
 //use app\engine\Db;
 
@@ -12,24 +8,22 @@ include "../engine/Autoload.php";
 
 use app\engine\Autoload;
 use app\models\Product;
-use app\models\Auth;
 use app\engine\Render;
 use app\engine\TwigRender;
-
-
-
+use app\engine\Request;
 
 spl_autoload_register([new Autoload(), 'loadClass']);
 require_once '../vendor/autoload.php';
 
-$url = explode('/', $_SERVER['REQUEST_URI']);
-$controllerName = $url[1] ?: 'product';
-$actionName = $url[2];
+$request = new Request();
+
+$controllerName = $request->getControllerName() ?: 'product';
+$actionName = $request->getActionName();
 
 $controllerClass =  CONTROLLER_NAMESPACE . ucfirst($controllerName) . "Controller";
 
 if (class_exists($controllerClass)) {
-    $controller = new $controllerClass(new TwigRender($twig));
+    $controller = new $controllerClass(new TwigRender());
     $controller->runAction($actionName);
 }
 

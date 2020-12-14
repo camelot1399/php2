@@ -3,16 +3,35 @@
 
 namespace app\controllers;
 
-use app\models\Auth;
+
+use app\engine\Request;
+use app\models\User;
 
 class AuthController extends Controller
 {
     public function actionLogin() {
-        //if (auth())
+        $request = new Request();
+        $login = $request->getParams()['login'];
+        $pass = $request->getParams()['pass'];
 
-        echo $this->render('auth');
-    } //?c=auth&a=login  //auth/login
-    public function actionLogout() {}
+        
+
+       // $login = $_POST['login'];
+        //$pass = $_POST['pass'];
+
+        if (User::auth($login, $pass)) {
+            header("Location:" . $_SERVER['HTTP_REFERER']);
+        } else {
+            die("Не верный логин пароль.");
+        }
+
+
+    }
+    public function actionLogout() {
+        session_destroy();
+        header("Location:" . $_SERVER['HTTP_REFERER']);
+        die();
+    }
 
 
 }

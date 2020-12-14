@@ -3,19 +3,44 @@
 
 namespace app\controllers;
 
+
+use app\engine\Request;
 use app\models\Basket;
 
 class BasketController extends Controller
 {
     public function actionIndex() {
-        echo $this->render('basket');
+        echo $this->render('basket', [
+            'basket' => Basket::getBasket(session_id())
+        ]);
     }
 
-    public function actionBasket() {
-        $basket = Basket::getBasket(111);
+    public function actionAdd() {
+        //$id = json_decode(file_get_contents('php://input'))->id;
+        $id = (new Request())->getParams()['id'];
 
-        echo $this->render('basket', [
-            'basket' => $basket
-        ]);
+        (new Basket(session_id(), $id))->save();
+
+        $response = [
+            'count' => Basket::getCountWhere('session_id', session_id())
+        ];
+
+        echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+
+    }
+
+    //basket/del
+    //$_POST['id]
+    public function actionDel() {
+        $id = (new Request())->getParams()['id'];
+
+        (new Basket(session_id(), $id))->delete();
+
+        $response = [
+            'count' => Basket::getCountWhere('session_id', session_id())
+        ];
+
+        echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+
     }
 }

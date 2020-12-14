@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\engine\Session;
 
 class User extends DbModel
 {
@@ -10,8 +11,26 @@ class User extends DbModel
     protected $pass;
 
     public static function auth($login, $pass) {
-        //TODO чекнуть логин и пароль по $this->login
-        //Создать сессию login
+       
+        $user = User::getOneWhere('login', $login);
+
+        $check = password_verify($pass, $user->pass);
+
+        if ($check) {
+            $session = new Session($login, $user->id);
+
+            var_dump(Session::getSessionLogin());
+            
+            $_SESSION['login'] = $login;
+            $_SESSION['id'] = $user->id;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function isAdmin() {
+        return static::getName() == 'admin';
     }
 
     public static function isAuth() {

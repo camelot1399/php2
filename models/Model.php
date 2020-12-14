@@ -11,13 +11,8 @@ abstract class Model implements IModel
 
     public function __set($name, $value) {
         //TODO запретить обращение к несуществующим полям if ...
-        
-
-        if ($this->props[$name]) {
-            $this->props[$name] = true; 
-            $this->$name = $value;
-        }
-        
+        $this->props[$name] = true;
+        $this->$name = $value;
     }
 
     public function __get($name) {
@@ -26,7 +21,7 @@ abstract class Model implements IModel
 
     public function __isset($name) {
         //TODO return isset $this->$name;
-        
+        return true;
     }
 
 
