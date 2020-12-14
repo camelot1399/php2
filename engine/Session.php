@@ -13,7 +13,7 @@ class Session {
 
     }
 
-    public function getSessionLogin()
+    public static function getSessionLogin()
     {
         return $this->login;
     }

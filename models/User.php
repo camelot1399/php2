@@ -19,8 +19,8 @@ class User extends DbModel
         if ($check) {
             $session = new Session($login, $user->id);
 
-            var_dump(Session::getSessionLogin());
-            
+            // var_dump(Session::getSessionLogin());
+
             $_SESSION['login'] = $login;
             $_SESSION['id'] = $user->id;
             return true;
