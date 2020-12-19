@@ -40,6 +40,7 @@ class Controller
                     'count' => Basket::getCountWhere('session_id', session_id())
                 ]),
                 'content' => $this->renderTemplate($template, $params)
+                
             ]);
         } else {
             return $this->renderTemplate($template, $params);

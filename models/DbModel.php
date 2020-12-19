@@ -60,6 +60,8 @@ abstract class DbModel extends Model
 
         $tableName = static::getTableName();
         $sql = "INSERT INTO `{$tableName}`({$columns}) VALUES ($values)";
+
+        
         Db::getInstance()->execute($sql, $params);
         $this->id = Db::getInstance()->lastInsertId();
     }

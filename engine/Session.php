@@ -2,20 +2,30 @@
 
 namespace app\engine;
 
-class Session {
-    protected $id;
-    protected $login;
-
-    public function __construct($id = null, $login = null)
+class Session
+{
+    public function sessionStart()
     {
-        $this->id = $id;
-        $this->login = $login;
-
+        session_start();
     }
 
-    public static function getSessionLogin()
+    public function setSession($key, $value)
     {
-        return $this->login;
+        $_SESSION[$key] = $value;
     }
 
+    public function getSession($key)
+    {
+        return $_SESSION[$key];
+    }
+
+    public function destroySession()
+    {
+        session_destroy();
+    }
+
+    public function regenerateSession()
+    {
+        session_regenerate_id();
+    }
 }
