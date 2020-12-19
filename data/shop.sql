@@ -26,8 +26,9 @@ CREATE TABLE `basket` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `session_id` varchar(300) NOT NULL,
   `product_id` varchar(45) NOT NULL,
+  `product_price` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,8 +37,60 @@ CREATE TABLE `basket` (
 
 LOCK TABLES `basket` WRITE;
 /*!40000 ALTER TABLE `basket` DISABLE KEYS */;
-INSERT INTO `basket` VALUES (1,'111','1'),(4,'111','2'),(5,'222','1'),(16,'mrdu0p7ds3duaj9so7m34g1le9','4'),(17,'mrdu0p7ds3duaj9so7m34g1le9','4'),(18,'mrdu0p7ds3duaj9so7m34g1le9','3'),(19,'mrdu0p7ds3duaj9so7m34g1le9','6'),(20,'mrdu0p7ds3duaj9so7m34g1le9','3'),(21,'mrdu0p7ds3duaj9so7m34g1le9','3'),(22,'mrdu0p7ds3duaj9so7m34g1le9','6'),(23,'mrdu0p7ds3duaj9so7m34g1le9','7'),(24,'mrdu0p7ds3duaj9so7m34g1le9','6'),(25,'mrdu0p7ds3duaj9so7m34g1le9','3'),(26,'mrdu0p7ds3duaj9so7m34g1le9','4'),(27,'mrdu0p7ds3duaj9so7m34g1le9','6'),(28,'mrdu0p7ds3duaj9so7m34g1le9','3'),(29,'mrdu0p7ds3duaj9so7m34g1le9','5');
 /*!40000 ALTER TABLE `basket` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `order_items`
+--
+
+DROP TABLE IF EXISTS `order_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `order_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` varchar(45) NOT NULL,
+  `product_id` varchar(45) NOT NULL,
+  `price` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_items`
+--
+
+LOCK TABLES `order_items` WRITE;
+/*!40000 ALTER TABLE `order_items` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `session_id` varchar(300) NOT NULL,
+  `product_price` varchar(45) NOT NULL,
+  `userFirstName` varchar(45) NOT NULL,
+  `userLastName` varchar(45) NOT NULL,
+  `phone` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orders`
+--
+
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -53,7 +106,7 @@ CREATE TABLE `products` (
   `description` text NOT NULL,
   `price` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +115,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (3,'Одежда','Брендовая',34),(4,'Пицца','Описание',125),(5,'Пицца','Описание',125),(6,'Пицца','Описание',125),(7,'Гамбургер','Вкусный продукт',90),(8,'Гамбургер','Вкусный продукт',90),(9,'Банан2','Эквадорский1',123),(10,'Банан2','Эквадорский1',123),(11,'Банан2','Эквадорский1',123),(12,'Банан2','Эквадорский1',123),(13,'Банан2','Эквадорский1',123),(14,'Банан2','Эквадорский1',123),(15,'Банан2','Эквадорский1',123),(16,'Банан2','Эквадорский1',123);
+INSERT INTO `products` VALUES (3,'Одежда','Брендовая',34),(4,'Пицца','Описание',125),(7,'Гамбургер','Вкусный продукт',90),(9,'Банан2','Эквадорский1',123),(10,'Огурцы','Вкусный огурец, зеленый, не красный',33),(11,'Соль','Белая',5);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,4 +153,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-14 17:31:02
+-- Dump completed on 2020-12-19 12:54:08
