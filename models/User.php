@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\engine\Session;
+use app\engine\Cookie;
 
 class User extends DbModel
 {
@@ -12,16 +13,16 @@ class User extends DbModel
     protected $rememberMe;
 
     public static function auth($login, $pass, $rememberMe = null) {
-       
+
         $user = User::getOneWhere('login', $login);
         $check = password_verify($pass, $user->pass);
 
         if ($check) {
             $_SESSION['login'] = $login;
             $_SESSION['id'] = $user->id;
-            // if (!is_null($rememberMe)) {
-            //     $password_cookie_token = md5($login.$pass.time());
-            // }
+            if (!is_null($rememberMe)) {
+                Cookie::cookieStart($login);
+            }
             
             return true;
         } else {

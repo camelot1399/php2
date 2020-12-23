@@ -14,16 +14,16 @@ class BasketController extends Controller
         echo $this->render('basket', [
             'basket' => Basket::getBasket(session_id()),
             'count' => Basket::getSummBasket(session_id())
-            
         ]);
     }
 
     public function actionAdd() {
         //$id = json_decode(file_get_contents('php://input'))->id;
+
         $id = (new Request())->getParams()['id'];
- 
-        $price = Product::getOne($id);
-        $price = $price->price;
+
+        $product = Product::getOne($id);
+        $price = $product->price;
 
         (new Basket(session_id(), $id, $price))->save();
 

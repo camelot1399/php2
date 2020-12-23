@@ -12,7 +12,8 @@
             <h2>{{ item.name }}</h2>
             <p>Описание: {{ item.description }}</p>
             <p>Цена: {{ item.basket_product_price }} руб.</p>
-            <button data-id="{{ item.basket_id }}" class="delete">Удалить</button>
+            {# <button data-id="{{ item.basket_id }}" class="delete">Удалить</button> #}
+            <button class="btn btn-primary delete" data-id="{{ item.basket_id }}">Удалить</button>
         </div>
     {% endfor %}
 
@@ -41,7 +42,7 @@
         <input type="tel" id="email" name="email" required>
         <br>
         <br>
-        <button id="createOrder" type="submit">Сформировать заказ</button>
+        <button class="btn btn-primary" id="createOrder" type="submit">Сформировать заказ</button>
     </form>
 
 {% else %}

@@ -8,6 +8,7 @@ use app\engine\Db;
 
 class Order extends DbModel {
 
+    protected $id;
     protected $session_id;
     protected $product_price;
     protected $userFirstName;
@@ -63,6 +64,18 @@ class Order extends DbModel {
     public static function getOrder($session_id) {
         $sql = "SELECT * FROM `orders` WHERE `session_id` = :session ";
         $response = Db::getInstance()->queryOne($sql, ['session' => $session_id]);
+        return $response;
+    }
+
+    public static function getOrderId($id) {
+        $sql = "SELECT * FROM `orders` WHERE `id` = :id ";
+        $response = Db::getInstance()->queryOne($sql, ['id' => $id]);
+        return $response;
+    }
+
+    public static function getOrderAll() {
+        $sql = "SELECT * FROM `orders`";
+        $response = Db::getInstance()->queryAll($sql);
         return $response;
     }
 

@@ -2,6 +2,7 @@
 use app\engine\Autoload;
 use app\models\Product;
 use app\models\Order;
+use app\models\User;
 use app\engine\Render;
 use app\engine\TwigRender;
 use app\engine\Request;
@@ -14,6 +15,12 @@ spl_autoload_register([new Autoload(), 'loadClass']);
 
 $session = new \app\engine\Session();
 $session->sessionStart();
+
+if (isset($_COOKIE['login'])) {
+    $user = new User($_COOKIE['login']);
+    $_SESSION['login'] = 'admin';
+}
+
 
 $request = new Request();
 

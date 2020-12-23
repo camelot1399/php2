@@ -4,7 +4,7 @@
     <h2><a href="/product/card/?id={{ item.id }}">{{ item.name }}</a></h2>
     <p>{{ item.description }}</p>
     <p>Цена: {{ item.price }}</p>
-    <button data-id="{{ item.id }}" class="buy">Купить</button>
+    <button class="btn btn-primary buy" data-id="{{ item.id }}">Купить</button>
     <hr>
 {% endfor %}
 
@@ -13,14 +13,13 @@
 <script>
     let buttons = document.querySelectorAll('.buy');
     buttons.forEach((elem) => {
-        elem.addEventListener('click', () => {
-            let id = elem.getAttribute('data-id');
+        elem.addEventListener('click', elem => {
+            let id = elem.target.dataset.id;
             (
                 async () => {
                     const response = await fetch('/basket/add/', {
                         method: 'POST',
-                        headers: {'Content-Type': 'application/json;charset=utf-8'
-                        },
+                        headers: {'Content-Type': 'application/json;charset=utf-8'},
                         body: JSON.stringify({
                             id: id
                         })

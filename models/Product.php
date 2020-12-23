@@ -9,8 +9,6 @@ class Product extends DbModel {
     protected $description;
     protected $price;
 
-
-
     protected $props = [
         'name' => false,
         'description' => false,
@@ -23,6 +21,13 @@ class Product extends DbModel {
         $this->name = $name;
         $this->description = $description;
         $this->price = $price;
+    }
+
+    public static function cleanChars($input_text) {
+        $input_text = trim($input_text);
+        $input_text = strip_tags($input_text);
+        $input_text = htmlspecialchars($input_text);
+        return $input_text;
     }
 
 

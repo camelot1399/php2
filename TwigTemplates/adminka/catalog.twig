@@ -1,0 +1,71 @@
+<h2>Список всех товаров</h2>
+
+{% if (list) %}
+    <table class="table table-striped"> 
+        <thead>
+            <tr>
+                <td>Название продукта</td>
+                <td>Описание</td>
+                <td>Цена</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in list %}
+                <tr id="item_{{ item.id }}">
+                    <td>{{item.name}}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.price }}</td>
+                    <td width="100">
+                        <a href="/adminka/edit/?id={{item.id}}">
+                            <button type="button" class="btn btn-secondary">Изменить</button>
+                        </a>
+                    </td>
+                    <td width="100">
+                        <button type="button" data-id="{{item.id}}" class="btn btn-danger delete">Удалить</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+{% else %}
+Товаров нет
+
+{% endif %}
+
+
+<script>
+let buttons = document.querySelectorAll('.delete');
+buttons.forEach(el => {
+    el.addEventListener('click', el => {
+        let id = el.target.dataset.id;
+        let block = document.getElementById('item_' + id);
+        console.log(id);
+
+        (
+            async () => {
+                const response = await fetch('/product/del/', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json;charset=utf-8'},
+                    body: JSON.stringify({
+                        id: id
+                    })
+                });
+                const answer = await response.json();
+                block.remove();
+
+                {# let buttons = document.querySelectorAll('.delete'); #}
+                {# let content = document.querySelector('#content'); #}
+
+                {# if (buttons.length === 0) {
+                    content.innerText = 'Корзина пуста';
+                } #}
+
+            }
+        )();
+
+    })
+
+})
+</script>

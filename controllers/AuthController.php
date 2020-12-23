@@ -26,6 +26,11 @@ class AuthController extends Controller
         $session = new \app\engine\Session();
         $session->regenerateSession();
         $session->destroySession();
+
+        $cookie = new \app\engine\Cookie();
+        $request = new Request();
+        $login = $request->getParams()['login'];
+        $cookie->cookieDelete($login);
         //session_destroy();
         header("Location:" . $_SERVER['HTTP_REFERER']);
         die();

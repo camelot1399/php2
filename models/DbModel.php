@@ -37,7 +37,6 @@ abstract class DbModel extends Model
     public static function getCountWhere($name, $value) {
         $tableName = static::getTableName();
         $sql = "SELECT count(id) as count FROM {$tableName} WHERE `{$name}`=:value";
-
         return Db::getInstance()->queryOne($sql, ["value" => $value])['count'];
     }
 
@@ -61,7 +60,6 @@ abstract class DbModel extends Model
         $tableName = static::getTableName();
         $sql = "INSERT INTO `{$tableName}`({$columns}) VALUES ($values)";
 
-        
         Db::getInstance()->execute($sql, $params);
         $this->id = Db::getInstance()->lastInsertId();
     }
@@ -80,15 +78,20 @@ abstract class DbModel extends Model
         $params[':id'] = $this->id;
         $tableName = static::getTableName();
         $sql = "UPDATE `{$tableName}` SET {$colums} WHERE `id` = :id";
+
         Db::getInstance()->execute($sql, $params);
     }
-
-
 
     public function delete() {
         $tableName = static::getTableName();
         $sql = "DELETE FROM {$tableName} WHERE id = :id";
         return Db::getInstance()->execute($sql, [':id' => $this->product_id]);
+    }
+
+    public function deleteProduct() {
+        $tableName = static::getTableName();
+        $sql = "DELETE FROM {$tableName} WHERE id = :id";
+        return Db::getInstance()->execute($sql, [':id' => $this->id]);
     }
 
     public function save() {

@@ -1,0 +1,20 @@
+<h2>Редактирование товара</h2>
+
+<form action="/product/add" method="POST">
+    <label for="name">Название</label>
+    <input type="text" class="form-control" id="name" name="name" placeholder="" value="{{ item.name }}" required="">
+    <br>
+
+    <div class="form-group">
+         <label for="description">Описание</label>
+        <textarea class="form-control" id="description" name="description" rows="3">{{ item.description }}</textarea>
+    </div>
+
+    <br>
+    <label for="price">Цена</label>
+    <input type="text" class="form-control" id="price" name="price" placeholder="400" value="{{ item.price }}" required="">
+
+    <br>
+    <input type="hidden" name="id" value="{{ item.id }}" >
+    <button class="w-100 btn btn-primary btn-lg" type="submit">Обновить</button>
+</form>
