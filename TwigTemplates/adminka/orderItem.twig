@@ -1,0 +1,39 @@
+<h1>Админка</h1>
+
+<h2>Заказ</h2>
+
+{% if (order) %}
+
+    <div>Имя:  <span>{{ order.userFirstName }}</span></div>
+    <div>Фамилия:  <span>{{ order.userLastName }}</span></div>
+    <div>Телефон:  <span>{{ order.phone }}</span></div>
+    <div>Почта:  <span>{{ order.email }}</span></div>
+    <div>Статус:  <span>{{ order.status }}</span></div>
+    <div>Общий чек:  <span>{{ order.product_price }}</span> руб.</div>
+
+{% endif %}
+
+
+{% if (items) %}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Название продукта</td>
+            <td>Описание</td>
+            <td>Цена (руб.)</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.price}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+{% endif %}

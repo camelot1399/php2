@@ -1,0 +1,34 @@
+<h2>Мои заказы</h2>
+<hr>
+
+{% if (order) %}
+    <div>Имя: {{ order.userFirstName }}</div>
+    <div>Фамилия: {{ order.userLastName }}</div>
+    <div>Номер телефона: {{ order.phone }}</div>
+    <div>Почта: {{ order.email }}</div>
+    <div>Статус: {{ order.status }}</div>
+
+    <div>Общая сумма заказа: <span>{{price}}</span> руб.</div>
+
+    
+    {% if (catalog) %}
+
+        {% for item in catalog %}
+        
+        <div id="item_{{item.basket_id}}">
+            <h2>{{ item.name }}</h2>
+            <p>Описание: {{ item.description }}</p>
+            <p>Цена: {{ item.basket_product_price }} руб.</p>
+            <hr>
+        </div>
+        {% endfor %}
+
+    {% endif %}
+
+{% else %}
+<div>Вы еще ничего не заказали!</div>
+{% endif %}
+
+
+
+

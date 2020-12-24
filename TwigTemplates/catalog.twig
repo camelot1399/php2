@@ -1,0 +1,33 @@
+<h2>Каталог</h2>
+
+{% for item in catalog %}
+    <h2><a href="/product/card/?id={{ item.id }}">{{ item.name }}</a></h2>
+    <p>{{ item.description }}</p>
+    <p>Цена: {{ item.price }}</p>
+    <button class="btn btn-primary buy" data-id="{{ item.id }}">Купить</button>
+    <hr>
+{% endfor %}
+
+<a href="/product/catalog/?page={{ page }}">Далее</a>
+
+<script>
+    let buttons = document.querySelectorAll('.buy');
+    buttons.forEach((elem) => {
+        elem.addEventListener('click', elem => {
+            let id = elem.target.dataset.id;
+            (
+                async () => {
+                    const response = await fetch('/basket/add/', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json;charset=utf-8'},
+                        body: JSON.stringify({
+                            id: id
+                        })
+                    });
+                    const answer = await response.json();
+                    document.getElementById('count').innerText = answer.count;
+                }
+            )();
+        })
+    });
+</script>

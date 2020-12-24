@@ -1,0 +1,90 @@
+<h2>Корзина</h2>
+<hr>
+
+<div id="content">
+{% if (basket) %}
+
+{# <div>Общая <b>цена</b> товаров в корзине: <span class="totalCount">{{ count }}</span></div> #}
+
+    {% for item in basket %}
+    
+        <div id="item_{{item.basket_id}}">
+            <h2>{{ item.name }}</h2>
+            <p>Описание: {{ item.description }}</p>
+            <p>Цена: {{ item.basket_product_price }} руб.</p>
+            {# <button data-id="{{ item.basket_id }}" class="delete">Удалить</button> #}
+            <button class="btn btn-primary delete" data-id="{{ item.basket_id }}">Удалить</button>
+        </div>
+    {% endfor %}
+
+    <form action="/order/add" method="POST">
+        <h3>Формирование заказа:</h3>
+        <label for="totalCountPrice">Общая цена: <span>{{ count }}</span> руб.</label>
+        <br>
+        <br>
+        <label for="userFirstName">Имя</label>
+        <br>
+        <input type="text" id="userFirstName" placeholder="Дмитрий" name="userFirstName" required>
+        <br>
+
+        <label for="userLastName">Фамилия</label>
+        <br>
+        <input type="text" id="userLastName" placeholder="Иванов" name="userLastName" required>
+        <br>
+
+        <label for="phone">Номер телефона</label>
+        <br>
+        <input type="tel" id="phone" placeholder="+79161111111" name="phone" required>
+        <br>
+
+        <label for="email">Почтовый ящик</label>
+        <br>
+        <input type="tel" id="email" name="email" required>
+        <br>
+        <br>
+        <button class="btn btn-primary" id="createOrder" type="submit">Сформировать заказ</button>
+    </form>
+
+{% else %}
+Корзина пуста
+
+{% endif %}
+
+</div>
+
+<script>
+
+let buttons = document.querySelectorAll('.delete');
+buttons.forEach(el => {
+    el.addEventListener('click', el => {
+        let id = el.target.dataset.id;
+        let block = document.getElementById('item_' + id);
+
+        (
+            async () => {
+                const response = await fetch('/basket/del/', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json;charset=utf-8'},
+                    body: JSON.stringify({
+                        id: id
+                    })
+                });
+                const answer = await response.json();
+                document.getElementById('count').innerText = answer.count;
+                block.remove();
+
+                let buttons = document.querySelectorAll('.delete');
+                let content = document.querySelector('#content');
+
+                if (buttons.length === 0) {
+                    content.innerText = 'Корзина пуста';
+                }
+
+            }
+        )();
+
+    })
+
+})
+
+</script>
