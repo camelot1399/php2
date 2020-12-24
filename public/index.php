@@ -9,7 +9,7 @@ use app\engine\Request;
 
 
 include "../config/config.php";
-include "../engine/Autoload.php";
+// include "../engine/Autoload.php";
 require_once '../vendor/autoload.php';
 spl_autoload_register([new Autoload(), 'loadClass']);
 
